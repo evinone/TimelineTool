@@ -27,6 +27,8 @@
 		"build": "webpack --config webpack.config.js"
 	},
 	"dependencies": {
+		"dayjs": "^1.10.5",
+		"events": "^3.3.0",
 		"react": "^17.0.1",
 		"react-dom": "^17.0.1",
 		"storejs": "^1.1.0"
