@@ -14,7 +14,7 @@ const useInput = ()=>{
     standardDate: standardTime,
     currentDate: currentTime
   }]
-  localStorage.setItem('TableData', JSON.stringify(tableData))
+  // localStorage.setItem('TableData', JSON.stringify(tableData))
   console.log(tableData)
 
   const handleClick = () => {
@@ -36,7 +36,7 @@ const useInput = ()=>{
     currentDate: dayjs(new Date()).format('YYYY/MM/DD HH:mm:ss'),
   }
   tableData.push(data)
-  localStorage.setItem('TableData', tableData)
+  // localStorage.setItem('TableData', tableData)
   console.log(tableData)
   };
 
@@ -58,7 +58,7 @@ const useInput = ()=>{
     console.log('standard发生改变');
     // setStandardTime( () => dayjs(event.target.value).format('YYYY/MM/DD HH:mm:ss'));
     setStandardTime( () => event.target.value);
-  }  ;
+  };
 
   return {unixTime, standardTime, handleClick, unixTimeChange, standardTimeChange, tableData}
 }
@@ -66,7 +66,6 @@ const useInput = ()=>{
 const Input = () => {
   // input输入框
   const {unixTime, standardTime, handleClick, unixTimeChange, standardTimeChange, tableData} = useInput();
-    
   return (
     <>
     <div>

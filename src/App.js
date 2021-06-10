@@ -8,7 +8,21 @@ const appStyle = {
 };
 
 const useInput = () => {
-  
+  const time = Math.round(new Date().getTime());
+  const date = dayjs(time).format('YYYY/MM/DD HH:mm:ss');
+  const [unixTime, setUnixTime] = useState(time);
+  const [standardTime, setStandardTime] = useState(date);
+  let currentTime = dayjs(new Date()).format('YYYY/MM/DD HH:mm:ss')
+
+  let tableData = [{
+    unixDate: unixTime,
+    standardDate: standardTime,
+    currentDate: currentTime
+  }]
+  localStorage.setItem('TableData', JSON.stringify(tableData))
+
+  delTime()
+
 }
 
 const App = () => {
