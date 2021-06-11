@@ -1,37 +1,61 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import Input from "./component/Input";
 import Table from "./component/Table";
+import dayjs from "dayjs";
+
 const appStyle = {
   maxWidth: 1300,
   minHeight: 574,
-  // backgroundColor: 'pink'
+  fontSize: '18px',
+  textAlign: 'center',
+  margin: '0 auto',
+  backgroundColor: 'pink'
 };
 
 const useInput = () => {
-  const time = Math.round(new Date().getTime());
-  const date = dayjs(time).format('YYYY/MM/DD HH:mm:ss');
-  const [unixTime, setUnixTime] = useState(time);
-  const [standardTime, setStandardTime] = useState(date);
-  let currentTime = dayjs(new Date()).format('YYYY/MM/DD HH:mm:ss')
+  const [tableStateData, setTableStateDdata] = useState([])
 
-  let tableData = [{
-    unixDate: unixTime,
-    standardDate: standardTime,
-    currentDate: currentTime
-  }]
-  localStorage.setItem('TableData', JSON.stringify(tableData))
+  useEffect(()=>{
+    let tableData = JSON.parse(localStorage.getItem('TableData'))
+    if(!tableData) {
+      tableData = []
+    }
+    setTableStateDdata(tableData)
+  },[])
 
-  delTime()
+  const addTime = (unixDate, standardDate, currentDate) => {
+      let tableDataList = {
+        unixDate: unixDate,
+        standardDate: standardDate,
+        currentDate: currentDate,
+      }
+      const newList = [tableDataList, ...tableStateData]
+      setTableStateDdata(newList)
+      localStorage.setItem('TableData', JSON.stringify(newList))
+  }
 
+  const delTime = (id) => {
+      const newList = [...tableStateData]
+      const filterList = newList.map((value,index)=>({...value,id:index})).filter(item=>item.id !== id)
+      setTableStateDdata(filterList)
+      localStorage.setItem('TableData', JSON.stringify(filterList))
+      console.log(tableStateData)
+    
+  }
+
+  return {addTime, delTime,  tableStateData}
 }
 
 const App = () => {
-  
+  const {addTime, delTime, tableStateData} = useInput()
   return (
     <div style={appStyle}>
-      unix时间戳工具
-      <Input />
-      <Table />
+      <h1 style={{textAlign: 'center'}}>unix时间戳工具</h1>
+      <Input addTime={addTime} />
+      <Table 
+      delTime={delTime}
+      tableStateData={tableStateData}
+      />
     </div>
   )
 };

@@ -1,26 +1,33 @@
-import { useContext } from "react"
+import react from "react"
+const tableStyle = {
+  margin: '0 auto',
 
-const useInput = () => {
-  const data = JSON.parse(localStorage.getItem('TableData'));
-  console.log(data)
-  const tableData = data.map((val) => {
-    return (
-    <tr key={Math.random()}>
-      <td>{val.unixDate}</td>
-      <td>{val.standardDate}</td>
-      <td>{val.currentDate}</td>
-      <td>X</td>
-    </tr>
-    )}
-  )
-
-  return {tableData}
 }
 
-const unixTable = () => {
-  const {tableData} = useInput()
+const ShowData = ({showTableData,delTime}) => {
+  // console.log(showTableData)
+  return <>
+  {
+    showTableData.map((val, index) => {
+      return (
+     <tr key={Math.random()}>
+       <td>{val.unixDate}</td>
+       <td>{val.standardDate}</td>
+       <td>{val.currentDate}</td>
+       <td onClick={() => delTime(index)}>X</td>
+     </tr>
+     )}
+   )
+  }
+  </>
+  
+}
+
+const unixTable = (props) => {
+  const {delTime,tableStateData} = props
 return (
-  <div>
+  <div style={tableStyle}>
+    <h3 style={{textAlign: 'left'}}>历史记录</h3>
     <table border='1'>
       <thead>
         <tr>
@@ -31,7 +38,7 @@ return (
         </tr>
       </thead>
       <tbody>
-        {tableData}
+        <ShowData delTime={delTime} showTableData={tableStateData} />
       </tbody>
     </table>
   </div>
