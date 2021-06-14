@@ -13,37 +13,37 @@ const useInput = () => {
   const handleClick = (addTime) => {
   if(unixState){
     // 时间戳转换日期
-    console.log(unixTime, typeof(unixTime));
+    // console.log(unixTime, typeof(unixTime));
     const val = dayjs(unixTime).format('YYYY/MM/DD HH:mm:ss');
     setStandardTime(() => val);
-    console.log(val);
+    // console.log(val);
   } else {
     //  日期转换成时间戳
     const unixVal = dayjs(standardTime).valueOf();
     setUnixTime(() => unixVal);
-    console.log(unixVal);
+    // console.log(unixVal);
   }
   // addTime(unixTime, standardTime, currentTime)
   };
 
   useEffect(() => {
-    console.log('到useeffect里面了')
+    // console.log('到useeffect里面了')
     unixState = true;
-    console.log(unixTime)
+    // console.log(unixTime)
   }, [unixTime])
   useEffect(() => {
-    console.log('到useeffect里面了')
+    // console.log('到useeffect里面了')
     unixState = false;
-    console.log(standardTime)
+    // console.log(standardTime)
   }, [standardTime]);
 
   const unixTimeChange = (event) => {
-    console.log('unix发生改变');
+    // console.log('unix发生改变');
     setUnixTime( () => parseInt(event.target.value));
   };
 
   const standardTimeChange = (event) => {
-    console.log('standard发生改变');
+    // console.log('standard发生改变');
     setStandardTime( () => event.target.value);
   };
 
@@ -51,38 +51,52 @@ const useInput = () => {
 }
 
 const Input = ({addTime}) => {
-  const handleClick = (addTime) => {
+  const handleClick = () => {
     if(unixState){
       // 时间戳转换日期
-      console.log(unixTime, typeof(unixTime));
+      // console.log(unixTime, typeof(unixTime));
       const val = dayjs(unixTime).format('YYYY/MM/DD HH:mm:ss');
       setStandardTime(() => val);
-      console.log(val);
+      // console.log(val);
     } else {
       //  日期转换成时间戳
       const unixVal = dayjs(standardTime).valueOf();
       setUnixTime(() => unixVal);
-      console.log(unixVal);
+      // console.log(unixVal);
     }
-    props.addTime(unixTime, standardTime, currentTime)
+    addTime(unixTime, standardTime, currentTime)
     };
   // input转换框
   const {unixTime, setUnixTime, standardTime, setStandardTime, unixState, unixTimeChange, standardTimeChange, currentTime} = useInput();
   return (
     <>
     <div>
-      <span style={{}}>Unix时间</span>
+      <span style={{paddingRight: '10px'}}>Unix时间</span>
       <input
        value={unixTime}
        onChange={unixTimeChange}
        placeholder="请输入unix时间"
+       style={{
+         height: '33px',
+         width: '200px',
+         fontSize: '17px'
+       }}
        />
-      <span>毫秒</span>
+      <span style={{fontSize: '13px'}}>毫秒</span>
       {/* <button
         onClick={handleClick()}
       > */}
       <button
         onClick={handleClick}
+        style={{
+          width:'100px',
+          height:'35px',
+          backgroundColor: '#2b97ff',
+          border:0,
+          borderRadius:'3px',
+          fontSize: '19px',
+          margin: '0 10px'
+      }}
       >
         转换
       </button>
@@ -91,6 +105,11 @@ const Input = ({addTime}) => {
        value={standardTime}
        onChange={standardTimeChange}
        placeholder="请输入普通时间"
+       style={{
+        height: '33px',
+        width: '200px',
+        fontSize: '17px'
+      }}
       />
     </div>
     </>

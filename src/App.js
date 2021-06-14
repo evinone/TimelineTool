@@ -9,7 +9,7 @@ const appStyle = {
   fontSize: '18px',
   textAlign: 'center',
   margin: '0 auto',
-  backgroundColor: 'pink'
+  border: '1px solid'
 };
 
 const useInput = () => {
@@ -39,21 +39,27 @@ const useInput = () => {
       const filterList = newList.map((value,index)=>({...value,id:index})).filter(item=>item.id !== id)
       setTableStateDdata(filterList)
       localStorage.setItem('TableData', JSON.stringify(filterList))
-      console.log(tableStateData)
+      // console.log(tableStateData)
     
   }
 
-  return {addTime, delTime,  tableStateData}
+  const delAll = () => {
+    let allTable = []
+    setTableStateDdata(allTable)
+    localStorage.removeItem('TableData')
+  }
+  return {addTime, delTime, delAll, tableStateData}
 }
 
 const App = () => {
-  const {addTime, delTime, tableStateData} = useInput()
+  const {addTime, delTime, delAll, tableStateData} = useInput()
   return (
     <div style={appStyle}>
       <h1 style={{textAlign: 'center'}}>unix时间戳工具</h1>
       <Input addTime={addTime} />
       <Table 
       delTime={delTime}
+      delAll={delAll}
       tableStateData={tableStateData}
       />
     </div>

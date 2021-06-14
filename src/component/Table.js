@@ -1,9 +1,7 @@
 import react from "react"
 const tableStyle = {
-  margin: '0 auto',
-
+  margin: '0 20%',
 }
-
 const ShowData = ({showTableData,delTime}) => {
   // console.log(showTableData)
   return <>
@@ -24,17 +22,40 @@ const ShowData = ({showTableData,delTime}) => {
 }
 
 const unixTable = (props) => {
-  const {delTime,tableStateData} = props
+  const {delTime,delAll,tableStateData} = props
 return (
   <div style={tableStyle}>
-    <h3 style={{textAlign: 'left'}}>历史记录</h3>
+    <div style={{position:'relative', marginTop: '30px'}}>
+    <span style={{
+      position: 'absolute',
+      display: 'inline-block',
+      fontSize: '18px',
+      fontWeight: '600',
+      left: 0
+      }}>
+        历史记录
+        </span>
+    <span
+     style={{
+      position: 'absolute',
+      display: 'inline-block',
+      fontSize: '18px',
+      fontWeight: '600',
+      right: 0
+      }}
+     onClick={delAll}
+    >
+      全部删除
+      </span>
+      </div>
+      <br />
     <table border='1'>
       <thead>
         <tr>
-          <th>unix时间</th>
-          <th>普通时间</th>
-          <th>转换时间</th>
-          <th>操作</th>
+          <th style={{width: '200px'}}>unix时间</th>
+          <th style={{width: '240px'}}>普通时间</th>
+          <th style={{width: '240px'}}>转换时间</th>
+          <th style={{width: '80px'}}>操作</th>
         </tr>
       </thead>
       <tbody>
