@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import { render } from 'react-dom';
 import dayjs from 'dayjs';
 
-const useInput = () => {
+const useInput = (addTime) => {
   let unixState = true;
   const time = Math.round(new Date().getTime());
   const date = dayjs(time).format('YYYY/MM/DD HH:mm:ss');
@@ -10,20 +10,24 @@ const useInput = () => {
   const [unixTime, setUnixTime] = useState(time);
   const [standardTime, setStandardTime] = useState(date);
 
-  const handleClick = (addTime) => {
+  const handleClick = () => {
   if(unixState){
     // 时间戳转换日期
     // console.log(unixTime, typeof(unixTime));
     const val = dayjs(unixTime).format('YYYY/MM/DD HH:mm:ss');
     setStandardTime(() => val);
+    setUnixTime(() => unixTime);
+
     // console.log(val);
   } else {
     //  日期转换成时间戳
     const unixVal = dayjs(standardTime).valueOf();
     setUnixTime(() => unixVal);
+    setStandardTime(() => standardTime);
     // console.log(unixVal);
   }
-  // addTime(unixTime, standardTime, currentTime)
+  console.log(unixTime, standardTime, currentTime)
+  addTime(unixTime, standardTime, currentTime)
   };
 
   useEffect(() => {
@@ -47,27 +51,12 @@ const useInput = () => {
     setStandardTime( () => event.target.value);
   };
 
-  return {unixTime, setUnixTime, standardTime, setStandardTime, unixState, unixTimeChange, standardTimeChange, currentTime}
+  return {unixTime, standardTime, unixTimeChange, standardTimeChange, handleClick}
 }
 
 const Input = ({addTime}) => {
-  const handleClick = () => {
-    if(unixState){
-      // 时间戳转换日期
-      // console.log(unixTime, typeof(unixTime));
-      const val = dayjs(unixTime).format('YYYY/MM/DD HH:mm:ss');
-      setStandardTime(() => val);
-      // console.log(val);
-    } else {
-      //  日期转换成时间戳
-      const unixVal = dayjs(standardTime).valueOf();
-      setUnixTime(() => unixVal);
-      // console.log(unixVal);
-    }
-    addTime(unixTime, standardTime, currentTime)
-    };
   // input转换框
-  const {unixTime, setUnixTime, standardTime, setStandardTime, unixState, unixTimeChange, standardTimeChange, currentTime} = useInput();
+  const {unixTime, standardTime, unixTimeChange, standardTimeChange, handleClick} = useInput(addTime);
   return (
     <>
     <div>
@@ -83,9 +72,6 @@ const Input = ({addTime}) => {
        }}
        />
       <span style={{fontSize: '13px'}}>毫秒</span>
-      {/* <button
-        onClick={handleClick()}
-      > */}
       <button
         onClick={handleClick}
         style={{
